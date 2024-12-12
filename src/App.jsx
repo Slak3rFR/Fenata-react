@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Navbar from "./assets/components/Navbar";
 import Cart from "./assets/components/Cart";
-import WelcomeSection from "./assets/components/WelcomeSection";
+import WelcomeSection from "./assets/components/ItemListContainer";
 
 function App() {
   const [cartCount, setCartCount] = useState(0);

@@ -1,4 +1,4 @@
-function WelcomeSection() {
+function ItemListContainer() {
     return (
     <section className="text-center mt-16 p-10">
         <h1 className="text-5xl font-bold text-gray-800 drop-shadow-md">Bienvenido a Fenata</h1>
@@ -7,4 +7,4 @@ function WelcomeSection() {
     );
 }
 
-export default WelcomeSection;
+export default ItemListContainer;
