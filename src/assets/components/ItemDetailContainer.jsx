@@ -4,24 +4,24 @@ import ItemDetail from "./ItemDetail";
 import { useParams } from "react-router-dom";
 
 function ItemDetailContainer() {
-const [product, setProduct] = useState(null); // Cambiar el valor inicial a null
-const { id } = useParams();
+    const [product, setProduct] = useState();
+    const { id } = useParams();
 
-useEffect(() => {
-    async function getProduct() {
-    const data = await getAsyncItemById(id);
-      setProduct(data); // Asignamos el producto cuando se obtiene
+    useEffect(() => {
+        if (id) {
+        async function getProduct() {
+            const data = await getAsyncItemById(id);
+            setProduct(data);
+            }
+        getProduct();
     }
-    getProduct();
 }, [id]);
 
-  // Si el producto no ha llegado aún, mostramos un mensaje de carga
-if (!product) {
-    return <div>Cargando...</div>;
-}
+    if (!product) {
+        return <div>Cargando producto...</div>;
+    }
 
-  // Si ya tenemos el producto, pasamos los props a ItemDetail
-return <ItemDetail product={product} />;
+return <ItemDetail {...product} />;
 }
 
 export default ItemDetailContainer;

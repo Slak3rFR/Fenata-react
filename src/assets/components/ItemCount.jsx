@@ -1,13 +1,10 @@
 import { useState } from "react";
 import PropTypes from 'prop-types';
 
-function ItemCount(props) {
-
+function ItemCount(product) {
     let [count, setCount] = useState(1);
-
     const handleAdd = () => {
-        if (count === props.max) return;
-        
+        if (count === product.max) return;        
         setCount(count + 1);
     };
     const handleSubstract = () => {
@@ -15,11 +12,9 @@ function ItemCount(props) {
             setCount(count - 1);
         }
     };
-
     function handleClick() {
-        props.onSubmitCount(count);
+        product.onSubmitCount(count);
     }
-
 return  (
     <div>
         <div>
@@ -35,8 +30,8 @@ return  (
 }
 
 ItemCount.propTypes = {
-    max: PropTypes.number.isRequired, // Máximo número permitido para el contador
-    onSubmitCount: PropTypes.func.isRequired, // Función que se ejecuta al hacer clic en "Agregar al carrito"
+    max: PropTypes.number.isRequired, 
+    onSubmitCount: PropTypes.func.isRequired, 
 };
 
 export default ItemCount
