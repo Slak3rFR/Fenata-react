@@ -40,3 +40,14 @@
 .read-the-docs {
   color: #888;
 }
+
+main {
+  flex-grow: 1;  /* Esto asegura que el contenido ocupe el espacio restante */
+}
+
+.footer {
+  background-color: #f1f1f1; /* Solo un ejemplo de color */
+  padding: 10px;
+  text-align: center;
+  margin-top: auto; /* Esto empuja el footer hacia abajo */
+}

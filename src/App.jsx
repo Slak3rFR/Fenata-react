@@ -1,5 +1,4 @@
 import "./App.css";
-
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./assets/components/Navbar";
@@ -7,6 +6,8 @@ import Cart from "./assets/components/Cartwidget";
 import ItemListContainer from "./assets/components/ItemListContainer";
 import ItemDetailContainer from "./assets/components/ItemDetailContainer";
 import NotFound from "./assets/components/NotFound";
+import FlexContainer from "./assets/components/FlexContainer";
+import Footer from "./assets/components/Footer";
 
 function App() {
   const [cartCount, setCartCount] = useState(0);
@@ -18,6 +19,7 @@ function App() {
   };
 
   return (
+    <FlexContainer>
     <BrowserRouter>
       <Navbar cartCount={cartCount} />
       <main className="mt-16">
@@ -29,10 +31,10 @@ function App() {
         </Routes>
         <Cart onAddToCart={handleAddToCart} onRemoveFromCart={handleRemoveFromCart} />
       </main>
-      <footer>
-        <small>Created by Franco Reynoso 2025.</small>
-      </footer>
+      <Footer>
+      </Footer>
     </BrowserRouter>
+    </FlexContainer>
   );
 }
 
