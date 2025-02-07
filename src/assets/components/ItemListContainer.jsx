@@ -7,11 +7,11 @@ import Loader from './Loader';
 export default function ItemListContainer() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const {catId} = useParams();
+    const { catId } = useParams();
 
     useEffect(() => {
         setLoading(true);
-        
+
         if (catId === undefined) {
             getData()
                 .then((response) => {
@@ -22,7 +22,7 @@ export default function ItemListContainer() {
                     console.error("Error loading products:", error);
                     setLoading(false);
                 });
-        } else {          
+        } else {
             getCategoryData(catId)
                 .then((response) => {
                     setProducts(response);
@@ -34,14 +34,21 @@ export default function ItemListContainer() {
                 });
         }
     }, [catId]);
-    
+
     if (loading) {
         return <Loader />;
     }
 
     return (
-        <div className='flex flex-wrap'>
-            <ItemList products={products}/>
+        <div>
+            {!catId && (
+                <h1 className="text-3xl font-bold text-center my-8 text-gray-800">
+                    ¡Bienvenido, encontrá el outfit que siempre soñaste!
+                </h1>
+            )}
+            <div className='flex flex-wrap'>
+                <ItemList products={products}/>
+            </div>
         </div>
     );
 }
