@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 function ItemList(props) {
 return (
     <div>
-    <h2>{props.greeting}</h2>
+    <h2></h2>
     <FlexContainer>
         {props.products.map((item) => (
         <Item
@@ -19,7 +19,6 @@ return (
 }
 
 ItemList.propTypes = {
-    greeting: PropTypes.string.isRequired, 
     products: PropTypes.arrayOf(
     PropTypes.shape({
         id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired, 

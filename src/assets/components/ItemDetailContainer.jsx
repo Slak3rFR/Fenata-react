@@ -1,28 +1,28 @@
-import { useState, useEffect } from "react";
-import { getAsyncItemById } from "../data/getAsyncData";
-import ItemDetail from "./ItemDetail";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { GetAsyncDataById } from "../data/database";
+import ItemDetail from "./ItemDetail";
 
 function ItemDetailContainer() {
-    const [product, setProduct] = useState();
+    const [itemInfo, setItemInfo] = useState(null);  // Inicializa como null para controlar el estado vacío
     const { id } = useParams();
 
     useEffect(() => {
-        if (id) {
-        async function getProduct() {
-            const data = await getAsyncItemById(id);
-            setProduct(data);
-            }
-        getProduct();
-    }
-}, [id]);
+        async function getItemData() {
+            const itemData = await GetAsyncDataById(id);
+            setItemInfo(itemData);  
+        }
+        getItemData();
+    }, [id]);
 
-    if (!product) {
-        return <div>Cargando producto...</div>;
+    // No renderiza ItemDetail hasta que itemInfo esté listo
+    if (!itemInfo) {
+        return <div>Loading...</div>;
     }
 
-return <ItemDetail {...product} />;
+    return (
+        <ItemDetail {...itemInfo} id={id} />
+    );
 }
 
 export default ItemDetailContainer;
-

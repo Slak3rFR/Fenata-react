@@ -1,55 +1,66 @@
 import products from "./data"
 
 function getAsyncData() {
-console.log("Solicitando datos")  
-const promiseData = new Promise( (resolve, reject) => { 
-    const errorFatal = false;
+    
+    
+    const promiseData = new Promise( (resolve, reject) => {
+        const errorFatal = false
+        
+        setTimeout( () => {
+            if (errorFatal) reject("algo salio mal!!")
 
-    setTimeout( () => {
-    if (errorFatal) reject("Algo salió mal!")
-    console.log("Promesa Terminada")
-    resolve(products)
-    }, 500)     
-})
+            console.log('Promesa terminada')
+            resolve( products )
+        }, 2000 )
+        } )
 
-console.log("Promesa generada.")
 
-return promiseData;
+    return promiseData;
 }
 
-export function getAsyncItemById(itemID) {
-console.log("Solitando producto id....", itemID)
+export function GetAsyncDataById(id) {
+    
+    
+    const promiseData = new Promise( (resolve, reject) => {
+        const errorFatal = false
+        
+        setTimeout( () => {
+            if (errorFatal) reject("algo salio mal!!")
 
-const promiseData = new Promise( (resolve) => {    
 
-    setTimeout( () => {      
-    const requestedProduct = products.find( (item) => item.id === Number(itemID))
-      // TODO: validar si encontramos un producto -> si no es así, rechazamos la promesa
-    resolve(requestedProduct)
-    }, 500)     
-})
+            const itemRequested = products.find( product => {return product.id === Number   (id)} )
 
-console.log("Promesa generada.")
+            if (itemRequested === undefined) reject("Producto no encontrado")
 
-return promiseData;
+            resolve( itemRequested )
+        }, 500 )
+        } )
+
+
+    return promiseData;
+}
+
+export function GetAsyncDataByCategory(catid) {
+    
+    
+    const promiseData = new Promise( (resolve, reject) => {
+        const errorFatal = false
+        
+        setTimeout( () => {
+            if (errorFatal) reject("algo salio mal!!")
+
+
+            const itemRequested = products.filter( product => {return product.category.toLowerCase() === catid.toLowerCase()} )
+
+            if (itemRequested === undefined) reject("Producto no encontrado")
+
+            resolve( itemRequested )
+        }, 500 )
+        } )
+
+
+    return promiseData;
 }
 
 
-export function getAsyncItemsByCategory(catID) {
-console.log("Solitando productos para... ", catID)
-
-const promiseData = new Promise( (resolve) => {    
-
-    setTimeout( () => {      
-    const requestedProduct = products.filter( (item) => item.category.toLowerCase() === catID.toLowerCase())
-      // TODO: validar si encontramos un producto -> si no es así, rechazamos la promesa
-    resolve(requestedProduct)
-    }, 500)     
-})
-
-console.log("Promesa generada.")
-
-return promiseData;
-}
-
-export default getAsyncData;
+export default getAsyncData

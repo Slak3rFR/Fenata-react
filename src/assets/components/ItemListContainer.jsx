@@ -1,45 +1,47 @@
-import getAsyncData, { getAsyncItemsByCategory } from "../data/getAsyncData";
-import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import ItemList from "./ItemList";
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom'
+import getAsyncData, { GetAsyncDataByCategory } from '../data/database';
+import { useState, useEffect } from 'react';
+import ItemList from './ItemList';
+import Loader from './Loader';
 
-function ItemListContainer({ greeting }) {
-const [products, setProducts] = useState([]);
-console.log("%cRender de ItemListContainer", "color: yellow");
-const { catid } = useParams();
+export default function ItemListContainer() {
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const {catid} = useParams();
 
-useEffect(() => {
-    if (catid === undefined) {
-    const respuestaPromise = getAsyncData();
-    console.log(respuestaPromise);
-    respuestaPromise
-        .then((respuesta) => setProducts(respuesta))
-        .catch((error) => alert(error));
-    } else {
-    const respuestaPromise = getAsyncItemsByCategory(catid);
-    console.log(respuestaPromise);
-    respuestaPromise
-        .then((respuesta) => setProducts(respuesta))
-        .catch((error) => alert(error));
+    useEffect(() => {
+        setLoading(true);
+        
+        if (catid === undefined) {
+            getAsyncData()
+                .then((response) => {
+                    setProducts(response);
+                    setLoading(false);
+                })
+                .catch(error => {
+                    console.error("Error loading products:", error);
+                    setLoading(false);
+                });
+        } else {          
+            GetAsyncDataByCategory(catid)
+                .then((response) => {
+                    setProducts(response);
+                    setLoading(false);
+                })
+                .catch(error => {
+                    console.error("Error loading products:", error);
+                    setLoading(false);
+                });
+        }
+    }, [catid]);
+    
+    if (loading) {
+        return <Loader />;
     }
-}, [catid]);
 
-return (
-    <div>
-    <ItemList greeting={greeting} products={products} />
-    </div>
-);
+    return (
+        <div className='flex flex-wrap'>
+            <ItemList products={products}/>
+        </div>
+    );
 }
-
-// Validación de PropTypes
-ItemListContainer.propTypes = {
-greeting: PropTypes.string.isRequired,
-};
-
-// Valor por defecto para 'greeting'
-ItemListContainer.defaultProps = {
-greeting: "Bienvenido a nuestra tienda",
-};
-
-export default ItemListContainer;
