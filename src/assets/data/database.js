@@ -4,52 +4,46 @@ import products from "./data";
 
 
 const firebaseConfig = {
-    apiKey: import.meta.env.VITE_FIRESTORE_APIKEY,
-    appId: import.meta.env.VITE_FIRESTORE_APPID,
-    authDomain: "fenata-9b1a4.firebaseapp.com",
-    projectId: "fenata-9b1a4",
-    storageBucket: "fenata-9b1a4.firebasestorage.app",
-    messagingSenderId: "513476414756",
-    measurementId: "G-FR0PQLM9FC"
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-export default async function getAsyncData() {
-    //leer todos los documentos de la colección.
-    const collectionRef = collection(db, "products");
-    const productsSnapshot = await getDocs(collectionRef);
-    const documentsData =  productsSnapshot.docs.map( doc => {
-    return { ...doc.data(), id: doc.id}
-    } 
-    );
+export async function getData() {
+    const productsRef = collection(db, "products");
+    const querySnapshot = await getDocs(productsRef);
     
-    return documentsData;
+    const documents = querySnapshot.docs;
+    const docsData = documents.map((doc) => ({ ...doc.data(), id: doc.id }));
+    return docsData;
 }
 
-export async function GetAsyncDataById(id) { 
+export async function getItemData(id) {
     const docRef = doc(db, "products", id);
-    const docSnapShot = await getDoc(docRef);
-    const docData = docSnapShot.data();
-    return docData;
+    const docSnapshot = await getDoc(docRef);
+    
+    if (docSnapshot.exists()) {
+        return { ...docSnapshot.data(), id: docSnapshot.id };
+    } else {
+        throw new Error("Item not found");
+    }
 }
 
-
-export async function GetAsyncDataByCategory(catid) { 
-
-    const productsCollectionRef = collection(db, "products");
-    const q = query(productsCollectionRef, where("category", "==", catid));
-    const productsSnapshot = await getDocs(q);
-    const documentsData =  productsSnapshot.docs.map( doc => {
-    return { ...doc.data(), id: doc.id}
-    } 
-    );
-        
-    return documentsData;
+export async function getCategoryData(categoryId) {
+    const productsRef = collection(db, "products");
+    const q = query(productsRef, where("category", "==", categoryId));
+    const querySnapshot = await getDocs(q);
+    
+    const documents = querySnapshot.docs;
+    const docsData = documents.map((doc) => ({ ...doc.data(), id: doc.id }));
+    return docsData;
 }
-
-
 
 export async function exportProductsToDB() {
     try {
@@ -65,7 +59,10 @@ export async function exportProductsToDB() {
     }
 }
 
-export async function createBuyOrder(orderData){
-    const newOrderDoc = await addDoc(collection(db, "orders"), orderData);
-    return newOrderDoc.id;
+export async function createBuyOrder(orderData) {
+    const collectionRef = collection(db, "orders");
+    const docRef = await addDoc(collectionRef, orderData);
+    return docRef.id;
 }
+
+export { db };
