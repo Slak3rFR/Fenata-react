@@ -41,22 +41,38 @@ function CartContainer() {
         evt.preventDefault();
         if (cartItems.length === 0) return;
 
-        // Verificar que todos los campos del usuario estén completos
-        if (!userData.username || !userData.surname || !userData.dni || 
-            !userData.phone || !userData.email) {
-            alert("Por favor, completa todos los campos del formulario");
+        // Validaciones adicionales
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const dniRegex = /^\d{5,15}$/;
+        const phoneRegex = /^\d{8,15}$/;
+        const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,30}$/;
+
+        if (!nameRegex.test(userData.username)) {
+            alert("Por favor, ingresa un nombre válido (solo letras, entre 2 y 30 caracteres)");
             return;
         }
 
-        // Verificar que todos los items del carrito tengan los datos necesarios
-        const validCartItems = cartItems.map(item => ({
-            id: item.id,
-            title: item.title,
-            price: item.price,
-            count: item.count
-        }));
+        if (!nameRegex.test(userData.surname)) {
+            alert("Por favor, ingresa un apellido válido (solo letras, entre 2 y 30 caracteres)");
+            return;
+        }
 
-        const orderData = {
+        if (!dniRegex.test(userData.dni)) {
+            alert("Por favor, ingresa un número de documento válido (entre 5 y 15 dígitos)");
+            return;
+        }
+
+        if (!phoneRegex.test(userData.phone)) {
+            alert("Por favor, ingresa un número de teléfono válido (entre 8 y 15 dígitos)");
+            return;
+        }
+
+        if (!emailRegex.test(userData.email)) {
+            alert("Por favor, ingresa un email válido");
+            return;
+        }
+
+        const order = {
             buyer: {
                 name: userData.username,
                 surname: userData.surname,
@@ -64,21 +80,24 @@ function CartContainer() {
                 phone: userData.phone,
                 email: userData.email
             },
-            items: validCartItems,
+            items: cartItems.map(item => ({
+                id: item.id,
+                title: item.title,
+                price: item.price,
+                count: item.count
+            })),
             total: getTotalPrice(),
             date: new Date().toISOString()
         };
 
-        console.log("Datos a enviar:", orderData); // Para debug
-
         try {
-            const newOrderID = await createBuyOrder(orderData);
-            setOrderID(newOrderID);
+            const id = await createBuyOrder(order);
+            setOrderID(id);
             clearCart();
-            navigate(`/order-confirmation/${newOrderID}`);
+            navigate(`/order-confirmation/${id}`);
         } catch (error) {
-            console.error("Error detallado:", error);
-            alert("Hubo un problema con la compra. Por favor, intenta nuevamente.");
+            console.error("Error:", error);
+            alert("Hubo un error al procesar la orden");
         }
     }
     
@@ -165,7 +184,7 @@ function CartContainer() {
             )}
 
             {cartItems.length > 0 && (
-                <form className="bg-white p-6 rounded-lg shadow-md w-full max-w-md mt-12">
+                <form onSubmit={handleCheckOut} className="bg-white p-6 rounded-lg shadow-md w-full max-w-md mt-12">
                     <h2 className="text-2xl font-bold text-gray-800 text-center mb-4">
                         Completa tus datos para finalizar la compra
                     </h2>
@@ -175,10 +194,12 @@ function CartContainer() {
                         <input 
                             name="username" 
                             type="text" 
-                            value={userData.username} 
-                            onChange={onInputChange} 
+                            value={userData.username}
+                            onChange={onInputChange}
+                            pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,30}"
                             className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                             required
+                            title="Solo letras, entre 2 y 30 caracteres"
                         />
                     </div>
 
@@ -187,34 +208,40 @@ function CartContainer() {
                         <input 
                             name="surname" 
                             type="text" 
-                            value={userData.surname} 
-                            onChange={onInputChange} 
+                            value={userData.surname}
+                            onChange={onInputChange}
+                            pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,30}"
                             className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                             required
+                            title="Solo letras, entre 2 y 30 caracteres"
                         />
                     </div>
 
                     <div className="mb-4">
-                        <label className="block text-gray-700 font-medium mb-1">DNI</label>
+                        <label className="block text-gray-700 font-medium mb-1">DNI/Documento</label>
                         <input 
                             name="dni" 
-                            type="number" 
-                            value={userData.dni} 
-                            onChange={onInputChange} 
+                            type="text" 
+                            value={userData.dni}
+                            onChange={onInputChange}
+                            pattern="\d{5,15}"
                             className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                             required
+                            title="Número de documento debe tener entre 5 y 15 dígitos"
                         />
                     </div>
 
                     <div className="mb-4">
-                        <label className="block text-gray-700 font-medium mb-1">Número de Teléfono</label>
+                        <label className="block text-gray-700 font-medium mb-1">Teléfono</label>
                         <input 
                             name="phone" 
-                            type="number" 
-                            value={userData.phone} 
-                            onChange={onInputChange} 
+                            type="tel" 
+                            value={userData.phone}
+                            onChange={onInputChange}
+                            pattern="\d{8,15}"
                             className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                             required
+                            title="Número de teléfono debe tener entre 8 y 15 dígitos"
                         />
                     </div>
 
@@ -223,19 +250,20 @@ function CartContainer() {
                         <input 
                             name="email" 
                             type="email" 
-                            value={userData.email} 
-                            onChange={onInputChange} 
+                            value={userData.email}
+                            onChange={onInputChange}
                             className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
                             required
+                            pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                            title="Ingresa un email válido"
                         />
                     </div>
 
                     <button
                         type="submit"
-                        onClick={handleCheckOut}
-                        disabled={!(userData.username && userData.surname && userData.dni && userData.phone && userData.email)}
                         className={`w-full py-2 rounded-lg text-white font-semibold transition ${
-                            userData.username && userData.surname && userData.dni && userData.phone && userData.email 
+                            userData.username && userData.surname && userData.dni && 
+                            userData.phone && userData.email 
                                 ? "bg-blue-600 hover:bg-blue-700" 
                                 : "bg-gray-400 cursor-not-allowed"
                         }`}
