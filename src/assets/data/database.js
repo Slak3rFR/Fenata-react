@@ -1,4 +1,4 @@
-import { initializeApp } from '@firebase/app';
+import { initializeApp } from 'firebase/app';
 import { 
     getFirestore, 
     collection, 
@@ -8,7 +8,7 @@ import {
     query, 
     where, 
     addDoc 
-} from '@firebase/firestore';
+} from 'firebase/firestore';
 import products from "./data";
 
 
@@ -21,6 +21,7 @@ const firebaseConfig = {
     appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
