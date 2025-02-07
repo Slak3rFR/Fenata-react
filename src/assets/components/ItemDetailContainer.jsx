@@ -1,27 +1,48 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { GetAsyncDataById } from "../data/database";
-import ItemDetail from "./ItemDetail";
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { getItemData } from '../data/database.js';
+import ItemDetail from './ItemDetail';
+import Loader from './Loader';
 
 function ItemDetailContainer() {
-    const [itemInfo, setItemInfo] = useState(null);  // Inicializa como null para controlar el estado vacío
+    const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
     const { id } = useParams();
 
     useEffect(() => {
-        async function getItemData() {
-            const itemData = await GetAsyncDataById(id);
-            setItemInfo(itemData);  
-        }
-        getItemData();
+        setLoading(true);
+        getItemData(id)
+            .then(response => {
+                setProduct(response);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                setLoading(false);
+            });
     }, [id]);
 
-    // No renderiza ItemDetail hasta que itemInfo esté listo
-    if (!itemInfo) {
-        return <div>Loading...</div>;
+    if (loading) {
+        return <Loader />;
+    }
+
+    if (!product) {
+        return <div>Producto no encontrado</div>;
     }
 
     return (
-        <ItemDetail {...itemInfo} id={id} />
+        <div className="container mx-auto px-4">
+            <ItemDetail 
+                id={product.id}
+                title={product.title}
+                price={product.price}
+                stock={product.stock}
+                description={product.description}
+                img={product.img}
+                category={product.category}
+                text={product.text}
+            />
+        </div>
     );
 }
 

@@ -13,12 +13,13 @@ import products from "./data";
 
 
 const firebaseConfig = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_FIREBASE_APP_ID
+    apiKey: import.meta.env.VITE_FIRESTORE_APIKEY,
+    appId: import.meta.env.VITE_FIRESTORE_APPID,
+    authDomain: "fenata-9b1a4.firebaseapp.com",
+    projectId: "fenata-9b1a4",
+    storageBucket: "fenata-9b1a4.firebasestorage.app",
+    messagingSenderId: "513476414756",
+    measurementId: "G-FR0PQLM9FC"                                    // Reemplaza con tu appId
 };
 
 // Initialize Firebase
@@ -39,7 +40,11 @@ export async function getItemData(id) {
     const docSnapshot = await getDoc(docRef);
     
     if (docSnapshot.exists()) {
-        return { ...docSnapshot.data(), id: docSnapshot.id };
+        const data = docSnapshot.data();
+        return {
+            ...data,
+            id: docSnapshot.id
+        };
     } else {
         throw new Error("Item not found");
     }

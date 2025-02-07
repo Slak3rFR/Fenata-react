@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import getAsyncData, { GetAsyncDataByCategory } from '../data/database';
+import { getData, getCategoryData } from '../data/database.js';
 import { useState, useEffect } from 'react';
 import ItemList from './ItemList';
 import Loader from './Loader';
@@ -7,13 +7,13 @@ import Loader from './Loader';
 export default function ItemListContainer() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const {catid} = useParams();
+    const {catId} = useParams();
 
     useEffect(() => {
         setLoading(true);
         
-        if (catid === undefined) {
-            getAsyncData()
+        if (catId === undefined) {
+            getData()
                 .then((response) => {
                     setProducts(response);
                     setLoading(false);
@@ -23,7 +23,7 @@ export default function ItemListContainer() {
                     setLoading(false);
                 });
         } else {          
-            GetAsyncDataByCategory(catid)
+            getCategoryData(catId)
                 .then((response) => {
                     setProducts(response);
                     setLoading(false);
@@ -33,7 +33,7 @@ export default function ItemListContainer() {
                     setLoading(false);
                 });
         }
-    }, [catid]);
+    }, [catId]);
     
     if (loading) {
         return <Loader />;

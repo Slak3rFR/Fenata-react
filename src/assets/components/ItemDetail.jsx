@@ -7,10 +7,18 @@ import PropTypes from 'prop-types';
 function ItemDetail({ title, price, description, stock, img, id, text }) {
     const { addItem } = useContext(cartContext);
     const [isInCart, setIsInCart] = useState(false);
+    const [imageError, setImageError] = useState(false);
+
+    console.log("Props en ItemDetail:", { title, price, description, stock, img, id, text });
 
     function handleAddToCart(count) {
         addItem({ id, title, price, count, img, text });
         setIsInCart(true);
+    }
+
+    function handleImageError() {
+        console.log("Error al cargar la imagen:", img);
+        setImageError(true);
     }
 
     return (
@@ -18,11 +26,18 @@ function ItemDetail({ title, price, description, stock, img, id, text }) {
             <div className="max-w-xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
                 {/* Imagen del producto */}
                 <div className="w-full">
-                    <img 
-                        src={img} 
-                        alt={title}
-                        className="w-full h-[300px] object-cover"
-                    />
+                    {!imageError ? (
+                        <img 
+                            src={img} 
+                            alt={title}
+                            className="w-full h-[300px] object-cover"
+                            onError={handleImageError}
+                        />
+                    ) : (
+                        <div className="w-full h-[300px] bg-gray-200 flex items-center justify-center">
+                            <span className="text-gray-500">Imagen no disponible</span>
+                        </div>
+                    )}
                 </div>
 
                 {/* Detalles del producto */}
