@@ -7,7 +7,7 @@ const Navbar = () => {
         <div className="container mx-auto px-4 py-2 flex items-center justify-evenly">
             <div className="text-xl font-bold drop-shadow-xl">
                 <Link to="/">
-                    <img className="h-10" src="../../../public/fenata2.png" alt="" />
+                    <img className="h-10" src="/fenata2.png" alt="" />
                 </Link>
             </div>
             <ul className="flex space-x-6">
