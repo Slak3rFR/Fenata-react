@@ -1,5 +1,14 @@
-import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, doc, getDoc, query, where, addDoc} from "firebase/firestore";
+import { initializeApp } from '@firebase/app';
+import { 
+    getFirestore, 
+    collection, 
+    getDocs, 
+    doc, 
+    getDoc, 
+    query, 
+    where, 
+    addDoc 
+} from '@firebase/firestore';
 import products from "./data";
 
 
