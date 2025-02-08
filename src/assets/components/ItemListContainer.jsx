@@ -3,6 +3,7 @@ import { getData, getCategoryData } from '../data/database.js';
 import { useState, useEffect } from 'react';
 import ItemList from './ItemList';
 import Loader from './Loader';
+import FlexContainer from './FlexContainer';
 
 export default function ItemListContainer() {
     const [products, setProducts] = useState([]);
@@ -40,15 +41,17 @@ export default function ItemListContainer() {
     }
 
     return (
-        <div>
+        <div className="min-h-screen mt-10">
             {!catId && (
-                <h1 className="text-3xl font-bold text-center my-8 text-gray-800">
+                <h1 className="text-4xl font-bold text-center text-black">
                     ¡Bienvenido, encontrá el outfit que siempre soñaste!
                 </h1>
             )}
-            <div className='flex flex-wrap'>
-                <ItemList products={products}/>
-            </div>
+            <FlexContainer>
+                <div className="flex flex-wrap justify-center">
+                    <ItemList products={products}/>
+                </div>
+            </FlexContainer>
         </div>
     );
 }

@@ -23,12 +23,12 @@ function ItemDetail({ title, price, description, stock, img, id, text }) {
         <div className="container mx-auto px-4 py-8">
             <div className="max-w-xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
                 {/* Imagen del producto */}
-                <div className="w-full">
+                <div className="w-full flex justify-center items-center">
                     {!imageError ? (
                         <img 
                             src={img} 
                             alt={title}
-                            className="w-full h-[300px] object-cover"
+                            className="w-[280px] h-[280px] object-cover"
                             onError={handleImageError}
                         />
                     ) : (
@@ -38,7 +38,7 @@ function ItemDetail({ title, price, description, stock, img, id, text }) {
                     )}
                 </div>
                 {/* Detalles del producto */}
-                <div className="p-6">
+                <div className="p-6 ">
                     <h2 className="text-2xl font-bold mb-3 text-center">{title}</h2>
                     <p className="text-gray-600 mb-3 text-center">{description}</p>
                     <div className="text-xl font-bold text-green-600 mb-4 text-center">
@@ -46,24 +46,24 @@ function ItemDetail({ title, price, description, stock, img, id, text }) {
                     </div>                    
                     {/* Stock */}
                     <div className="mb-4 text-center">
-                        <span className="text-gray-600">
+                        <span className="text-gray-500">
                             Stock disponible: {stock} unidades
                         </span>
                     </div>
                     {/* Botones */}
-                    <div className="max-w-md mx-auto space-y-3">
+                    <div className="max-w-lg mx-auto space-y-3">
                         {!isInCart ? (
                             <ItemCounter onSubmitCount={handleAddToCart} max={stock} />
                         ) : (
                             <div className="space-y-3">
                                 <Link to="/cart" className="block">
-                                    <button className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
+                                    <button className="max-w-lg bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
                                         Realizar pedido
                                     </button>
                                 </Link>
                                 <button 
                                     onClick={() => setIsInCart(false)}
-                                    className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+                                    className="max-w-lg bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
                                 >
                                     Agregar Más
                                 </button>

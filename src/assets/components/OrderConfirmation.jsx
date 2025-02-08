@@ -1,7 +1,25 @@
 import { Link, useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { getDoc, doc } from 'firebase/firestore';
+import { db } from '../data/database';
+
 
 function OrderConfirmation() {
     const { orderId } = useParams();
+    const [orderData, setOrderData] = useState(null);
+
+    useEffect(() => {
+        if (orderId) {
+            const orderRef = doc(db, 'orders', orderId);
+            getDoc(orderRef)
+                .then((docSnap) => {
+                    if (docSnap.exists()) {
+                        setOrderData(docSnap.data());
+                    }
+                })
+                .catch(error => console.error("Error fetching order:", error));
+        }
+    }, [orderId]);
 
     if (!orderId) {
         return (
@@ -40,7 +58,8 @@ function OrderConfirmation() {
                     </div>
                     <h2 className="text-3xl font-bold text-gray-800 mb-2">¡Compra Exitosa!</h2>
                     <p className="text-gray-600 mb-4">
-                        Gracias por tu compra. Tu pedido ha sido procesado correctamente. Te enviamos un correo con los detalles de tu compra.
+                        Gracias por tu compra. Tu pedido ha sido procesado correctamente. 
+                        Te enviamos un correo a <span className="font-semibold">{orderData?.buyer?.email}</span> con los detalles de tu compra.
                     </p>
                     <div className="bg-gray-50 p-4 rounded-lg mb-6">
                         <p className="text-sm text-gray-600">Número de Orden:</p>

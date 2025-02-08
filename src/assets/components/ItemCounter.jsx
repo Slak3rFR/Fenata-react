@@ -43,7 +43,7 @@ function ItemCounter({ onSubmitCount, max }) {
             </div>
             <button
                 onClick={handleSubmit}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 w-full disabled:bg-gray-400 disabled:cursor-not-allowed"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 max-w-lg disabled:bg-gray-400 disabled:cursor-not-allowed"
                 disabled={count > max || max <= 0}
             >
                 Agregar al Carrito
