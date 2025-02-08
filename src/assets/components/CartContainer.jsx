@@ -200,7 +200,7 @@ function CartContainer() {
                                     />
                                     <span>
                                     <img 
-                                        src="../../../public/mercadopago.webp"
+                                        src="./mercadopago.webp"
                                         alt="Mercado Pago"
                                         className="h-6 ml-2"
                                     />
