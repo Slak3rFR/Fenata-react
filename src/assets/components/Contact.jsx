@@ -9,9 +9,6 @@ function Contact() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Aquí puedes agregar la lógica para enviar el formulario
-        console.log('Formulario enviado:', formData);
-        // Resetear el formulario
         setFormData({ name: '', email: '', message: '' });
         alert('¡Mensaje enviado! Gracias por contactarnos.');
     };
@@ -57,7 +54,6 @@ function Contact() {
                             </div>
                         </div>
                     </div>
-
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
                             <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
@@ -72,8 +68,7 @@ function Contact() {
                                 required
                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
-                        </div>
-                        
+                        </div>                        
                         <div>
                             <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
                                 Email
@@ -87,8 +82,7 @@ function Contact() {
                                 required
                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
-                        </div>
-                        
+                        </div>                        
                         <div>
                             <label htmlFor="message" className="block text-gray-700 font-bold mb-2">
                                 Mensaje
@@ -102,8 +96,7 @@ function Contact() {
                                 rows="4"
                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             ></textarea>
-                        </div>
-                        
+                        </div>                        
                         <button
                             type="submit"
                             className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300"

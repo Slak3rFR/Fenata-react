@@ -40,7 +40,7 @@ function OrderConfirmation() {
                     </div>
                     <h2 className="text-3xl font-bold text-gray-800 mb-2">¡Compra Exitosa!</h2>
                     <p className="text-gray-600 mb-4">
-                        Gracias por tu compra. Tu pedido ha sido procesado correctamente.
+                        Gracias por tu compra. Tu pedido ha sido procesado correctamente. Te enviamos un correo con los detalles de tu compra.
                     </p>
                     <div className="bg-gray-50 p-4 rounded-lg mb-6">
                         <p className="text-sm text-gray-600">Número de Orden:</p>

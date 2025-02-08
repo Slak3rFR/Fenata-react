@@ -1,9 +1,8 @@
 import PropTypes from "prop-types";
-import "./Button.css";  // Importamos el CSS
+import "./Button.css";  
 
 export default function Button(props) {
     const { disabled, children, handleClick } = props;
-
     return (
         <button
             onClick={handleClick}

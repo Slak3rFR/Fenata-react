@@ -6,7 +6,6 @@ export function CartContextProvider({ children }) {
     const [cartItems, setCartItems] = useState([]);
 
     function addItem(item) {
-        console.log("Agregando item al carrito:", item);
         const existingItem = cartItems.find(i => i.id === item.id);
         if (existingItem) {
             const updatedItems = cartItems.map(i => 

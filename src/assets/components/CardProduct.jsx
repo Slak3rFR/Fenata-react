@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 function CardProduct(props) {
     const { title, price, text, id } = props;
-
     return (
         <div className="pt-[20px] pb-[40px] ml-20">
             <div 
@@ -31,7 +30,6 @@ function CardProduct(props) {
     );
 }
 
-// Definir PropTypes
 CardProduct.propTypes = {
     title: PropTypes.string.isRequired,
     price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
@@ -39,7 +37,6 @@ CardProduct.propTypes = {
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
-// Definir valores por defecto (opcional)
 CardProduct.defaultProps = {
     text: "Sin descripción disponible",
 };

@@ -12,8 +12,6 @@ function Item ({ product }) {
         Ver detalle
         </Link>
     </div>
-
-
     );
 };
 

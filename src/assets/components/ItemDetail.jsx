@@ -9,8 +9,6 @@ function ItemDetail({ title, price, description, stock, img, id, text }) {
     const [isInCart, setIsInCart] = useState(false);
     const [imageError, setImageError] = useState(false);
 
-    console.log("Props en ItemDetail:", { title, price, description, stock, img, id, text });
-
     function handleAddToCart(count) {
         addItem({ id, title, price, count, img, text });
         setIsInCart(true);
@@ -39,22 +37,19 @@ function ItemDetail({ title, price, description, stock, img, id, text }) {
                         </div>
                     )}
                 </div>
-
                 {/* Detalles del producto */}
                 <div className="p-6">
                     <h2 className="text-2xl font-bold mb-3 text-center">{title}</h2>
                     <p className="text-gray-600 mb-3 text-center">{description}</p>
                     <div className="text-xl font-bold text-green-600 mb-4 text-center">
                         ${price}
-                    </div>
-                    
+                    </div>                    
                     {/* Stock */}
                     <div className="mb-4 text-center">
                         <span className="text-gray-600">
                             Stock disponible: {stock} unidades
                         </span>
                     </div>
-
                     {/* Botones */}
                     <div className="max-w-md mx-auto space-y-3">
                         {!isInCart ? (

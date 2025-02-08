@@ -14,7 +14,6 @@ function CartContainer() {
     });
 
     const [orderID, setOrderID] = useState(null);
-
     const { cartItems, removeItem, getTotalPrice, clearCart, addItem } = useContext(cartContext);
 
     function onInputChange(evt) {
@@ -27,8 +26,7 @@ function CartContainer() {
             removeItem(item.id);
         } else {
             const currentStock = item.stock;
-            const currentCount = item.count;
-            
+            const currentCount = item.count;            
             if (newCount > currentStock && newCount > currentCount) {
                 alert('No hay suficiente stock');
             } else {
@@ -40,8 +38,6 @@ function CartContainer() {
     async function handleCheckOut(evt) {
         evt.preventDefault();
         if (cartItems.length === 0) return;
-
-        // Validaciones adicionales
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const dniRegex = /^\d{5,15}$/;
         const phoneRegex = /^\d{8,15}$/;
@@ -71,7 +67,6 @@ function CartContainer() {
             alert("Por favor, ingresa un email válido");
             return;
         }
-
         const order = {
             buyer: {
                 name: userData.username,
@@ -89,7 +84,6 @@ function CartContainer() {
             total: getTotalPrice(),
             date: new Date().toISOString()
         };
-
         try {
             const id = await createBuyOrder(order);
             setOrderID(id);
@@ -101,17 +95,14 @@ function CartContainer() {
         }
     }
     
-
     useEffect(() => {
         if (orderID) {
             alert(`¡Compra realizada con éxito! 🎉\nTu número de orden es: ${orderID}`);
         }
     }, [orderID]);
-
     return (
         <div className="w-full h-full flex flex-col justify-center items-center bg-white">
             <h1 className="text-4xl font-bold mb-4">Carrito de compras:</h1>
-
             {cartItems.length > 0 && (
                 <button
                     onClick={clearCart}
@@ -134,7 +125,6 @@ function CartContainer() {
                     Vaciar Carrito
                 </button>
             )}
-
             {cartItems.map((item) => (
                 <div key={item.id} className="border p-4 w-3/4 my-2 shadow-md rounded-lg">
                     <div className="flex justify-between items-center">
@@ -167,7 +157,6 @@ function CartContainer() {
                     <p className="text-right mt-2 font-semibold">Subtotal: ${item.price * item.count}</p>
                 </div>
             ))}
-
             {cartItems.length > 0 && (
                 <div className="w-3/4 mt-4 p-4 bg-gray-50 rounded-lg shadow-md">
                     <div className="flex justify-between items-center border-t-2 border-gray-200 pt-4">
@@ -178,17 +167,14 @@ function CartContainer() {
                     </div>
                 </div>
             )}
-
             {cartItems.length === 0 && !orderID && (
                 <p className="text-gray-500 text-lg mt-5">El carrito está vacío.</p>
             )}
-
             {cartItems.length > 0 && (
                 <form onSubmit={handleCheckOut} className="bg-white p-6 rounded-lg shadow-md w-full max-w-md mt-12">
                     <h2 className="text-2xl font-bold text-gray-800 text-center mb-4">
                         Completa tus datos para finalizar la compra
                     </h2>
-
                     <div className="mb-4">
                         <label className="block text-gray-700 font-medium mb-1">Nombre</label>
                         <input 
@@ -202,7 +188,6 @@ function CartContainer() {
                             title="Solo letras, entre 2 y 30 caracteres"
                         />
                     </div>
-
                     <div className="mb-4">
                         <label className="block text-gray-700 font-medium mb-1">Apellido</label>
                         <input 
@@ -216,7 +201,6 @@ function CartContainer() {
                             title="Solo letras, entre 2 y 30 caracteres"
                         />
                     </div>
-
                     <div className="mb-4">
                         <label className="block text-gray-700 font-medium mb-1">DNI/Documento</label>
                         <input 
@@ -230,7 +214,6 @@ function CartContainer() {
                             title="Número de documento debe tener entre 5 y 15 dígitos"
                         />
                     </div>
-
                     <div className="mb-4">
                         <label className="block text-gray-700 font-medium mb-1">Teléfono</label>
                         <input 
@@ -244,7 +227,6 @@ function CartContainer() {
                             title="Número de teléfono debe tener entre 8 y 15 dígitos"
                         />
                     </div>
-
                     <div className="mb-4">
                         <label className="block text-gray-700 font-medium mb-1">Email</label>
                         <input 
@@ -258,7 +240,6 @@ function CartContainer() {
                             title="Ingresa un email válido"
                         />
                     </div>
-
                     <button
                         type="submit"
                         className={`w-full py-2 rounded-lg text-white font-semibold transition ${

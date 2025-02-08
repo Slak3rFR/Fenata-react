@@ -19,10 +19,9 @@ const firebaseConfig = {
     projectId: "fenata-9b1a4",
     storageBucket: "fenata-9b1a4.firebasestorage.app",
     messagingSenderId: "513476414756",
-    measurementId: "G-FR0PQLM9FC"                                    // Reemplaza con tu appId
+    measurementId: "G-FR0PQLM9FC"                                    
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
